@@ -14,10 +14,6 @@ public class Percolation {
         bottom = size * size + 1;
         qf = new WeightedQuickUnionUF(size * size + 2);
         opened = new boolean[size][size];
-        for (int j = 1; j <= size; j++) {
-            qf.union(getQFIndex(1, j), top);
-            qf.union(getQFIndex(size, j), bottom);
-        }
     }
 
     /**
@@ -25,6 +21,13 @@ public class Percolation {
      */
     public void open(int i, int j) {
         opened[i - 1][j - 1] = true;
+        if (i == 1) {
+            qf.union(getQFIndex(i, j), top);
+        }
+        if (i == size) {
+            qf.union(getQFIndex(i, j), bottom);
+        }
+
         if (j > 1 && isOpen(i, j - 1)) {
             qf.union(getQFIndex(i, j), getQFIndex(i, j - 1));
         }
@@ -50,7 +53,11 @@ public class Percolation {
      * Is site (row i, column j) full?
      */
     public boolean isFull(int i, int j) {
-        return qf.connected(top, getQFIndex(i , j));
+        if (0 < i && i <= size && 0 < j && j <= size) {
+            return qf.connected(top, getQFIndex(i , j));
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     /**
