@@ -1,5 +1,6 @@
 public class PercolationStats {
 
+    private int experimentsCount;
     private Percolation pr;
     private double[] fractions;
 
@@ -7,8 +8,9 @@ public class PercolationStats {
      * Performs T independent computational experiments on an N-by-N grid.
      */
     public PercolationStats(int N, int T) {
-        fractions = new double[T];
-        for (int expNum = 0; expNum < T; expNum++) {
+        experimentsCount = T;
+        fractions = new double[experimentsCount];
+        for (int expNum = 0; expNum < experimentsCount; expNum++) {
             pr = new Percolation(N);
             int openedSites = 0;
             while (!pr.percolates()) {
@@ -20,7 +22,6 @@ public class PercolationStats {
                 }
             }
             double fraction = (double) openedSites / (N * N);
-            StdOut.println(fraction);
             fractions[expNum] = fraction;
         }
     }
@@ -36,21 +37,21 @@ public class PercolationStats {
      * Sample standard deviation of percolation threshold.
      */
     public double stddev() {
-        return 0;
+        return StdStats.stddev(fractions);
     }
 
     /**
      * Returns lower bound of the 95% confidence interval.
      */
     public double confidenceLo() {
-        return 0;
+        return mean() - ((1.96 * stddev()) / Math.sqrt(experimentsCount));
     }
 
     /**
      * Returns upper bound of the 95% confidence interval.
      */
     public double confidenceHi() {
-        return 0;
+        return mean() + ((1.96 * stddev()) / Math.sqrt(experimentsCount));
     }
 
     public static void main(String[] args) {
@@ -59,7 +60,9 @@ public class PercolationStats {
         if (N <= 0 || T <= 0) {
             throw new IllegalArgumentException("Given N <= 0 || T <= 0");
         }
+        //Stopwatch watch = new Stopwatch();
         PercolationStats ps = new PercolationStats(N, T);
+        //StdOut.println("Elapsed time: " + watch.elapsedTime());
 
         StdOut.println("mean                    = " + ps.mean());
         StdOut.println("stddev                  = " + ps.stddev());
