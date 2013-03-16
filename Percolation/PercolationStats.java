@@ -60,9 +60,7 @@ public class PercolationStats {
         if (N <= 0 || T <= 0) {
             throw new IllegalArgumentException("Given N <= 0 || T <= 0");
         }
-        //Stopwatch watch = new Stopwatch();
         PercolationStats ps = new PercolationStats(N, T);
-        //StdOut.println("Elapsed time: " + watch.elapsedTime());
 
         StdOut.println("mean                    = " + ps.mean());
         StdOut.println("stddev                  = " + ps.stddev());

@@ -4,7 +4,7 @@ public class Percolation {
     private int top = 0;
     private int bottom;
     private int size;
-    private QuickFindUF qf;
+    private WeightedQuickUnionUF qf;
 
     /**
      * Creates N-by-N grid, with all sites blocked.
@@ -12,7 +12,7 @@ public class Percolation {
     public Percolation(int N) {
         size = N;
         bottom = size * size + 1;
-        qf = new QuickFindUF(size * size + 2);
+        qf = new WeightedQuickUnionUF(size * size + 2);
         opened = new boolean[size][size];
         for (int j = 1; j <= size; j++) {
             qf.union(getQFIndex(1, j), top);
@@ -62,35 +62,6 @@ public class Percolation {
 
     private int getQFIndex(int i, int j) {
         return size * (i - 1) + j;
-    }
-
-    public String toString() {
-        String out = qf.find(top) + "\n";
-        for (int i = 1; i <= size; i++) {
-            for (int j = 1; j <= size; j++) {
-                out += " " + qf.find(getQFIndex(i, j));
-            }
-            out += "\n";
-        }
-        out += qf.find(bottom) + "\n";
-        return out;
-    }
-
-    public static void main(String[] args) {
-        int N = Integer.parseInt(args[0]);
-        Percolation pr = new Percolation(N);
-        pr.open(1, 6);
-        pr.open(2, 6);
-        pr.open(3, 6);
-        pr.open(4, 6);
-        pr.open(5, 6);
-        pr.open(6, 6);
-        pr.open(7, 6);
-        pr.open(8, 6);
-        pr.open(9, 6);
-        pr.open(10, 6);
-        StdOut.println(pr.toString());
-        StdOut.println(pr.percolates());
     }
 }
 
