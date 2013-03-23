@@ -4,7 +4,7 @@ import java.util.List;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
-    List<Item> list;
+    private List<Item> list;
 
     /**
      * Construct an empty randomized queue
