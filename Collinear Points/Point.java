@@ -42,13 +42,19 @@ public class Point implements Comparable<Point> {
 
     // slope between this point and that point
     public double slopeTo(Point that) {
+        if (that == null) {
+            throw new NullPointerException();
+        }
         if (that.x == x) {
-            return (that.y == y) ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
+            if (that.y == y) {
+                return Double.NEGATIVE_INFINITY;
+            }
+            return Double.POSITIVE_INFINITY;
         }
         if (that.y == y) {
             return 0.0;
         }
-        return (float) (that.y - this.y) / (that.x - this.x);
+        return (double) (that.y - this.y) / (that.x - this.x);
     }
 
     // is this point lexicographically smaller than that one?
@@ -57,7 +63,10 @@ public class Point implements Comparable<Point> {
         if (y == that.y && x == that.x) {
             return 0;
         }
-        return (y < that.y || (y == that.y && x < that.x)) ? -1 : 1;
+        if (y < that.y || (y == that.y && x < that.x)) {
+            return -1;
+        }
+        return 1;
     }
 
     // return string representation of this point
@@ -73,8 +82,10 @@ public class Point implements Comparable<Point> {
             if (slope1 == slope2) {
                 return 0;
             }
-            return (slope1 < slope2) ? -1: 1;
-
+            if (slope1 < slope2) {
+                return -1;
+            }
+            return 1;
         }
     }
 
