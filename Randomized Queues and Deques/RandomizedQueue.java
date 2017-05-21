@@ -40,16 +40,22 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         list.add(item);
     }
 
+    /** 
+     * return a random index
+     */
+    public int randomIndex() {
+        if (isEmpty()) {
+            throw new java.util.NoSuchElementException();
+        }
+        return StdRandom.uniform(size());        
+    }
+    
     /**
      * delete and return a random item
      * @return
      */
     public Item dequeue() {
-        if (isEmpty()) {
-            throw new java.util.NoSuchElementException();
-        }
-        int index = StdRandom.uniform(size());
-        return (Item) list.remove(index);
+        return (Item) list.remove(randomIndex());
     }
 
     /**
@@ -57,11 +63,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      * @return
      */
     public Item sample() {
-        if (isEmpty()) {
-            throw new java.util.NoSuchElementException();
-        }
-        int index = StdRandom.uniform(size());
-        return (Item) list.get(index);
+        return (Item) list.get(randomIndex());
     }
 
     private class RandomizedQueueIterator<E> implements Iterator<E> {
